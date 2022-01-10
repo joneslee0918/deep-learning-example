@@ -46,7 +46,7 @@ def FrameCapture(video_path, output_path):
     while success:
         success, image = vidObj.read()
         if success:
-            image = cv2.resize(image, (216, 384)) 
+            # image = cv2.resize(image, (216, 384)) 
             cv2.imwrite(output_path + "/%d.jpg" % count, image)
             count += 1
 
@@ -81,29 +81,23 @@ def colorize_video(input_path, reference_file, output_path, nonlocal_net, colorn
     # otherwise, use the specified reference image
     ref_name = input_path + filenames[0] if frame_propagate else reference_file
     print("reference name:", ref_name)
-    print("check => -1")
     frame_ref = Image.open(ref_name)
-    print("check => 0")
 
     total_time = 0
     I_last_lab_predict = None
 
     IB_lab_large = transform(frame_ref).unsqueeze(0).cuda()
-    print("check => 1")
     IB_lab = torch.nn.functional.interpolate(IB_lab_large, scale_factor=0.5, mode="bilinear")
     IB_l = IB_lab[:, 0:1, :, :]
     IB_ab = IB_lab[:, 1:3, :, :]
-    print("check => 2")
     with torch.no_grad():
       I_reference_lab = IB_lab
       I_reference_l = I_reference_lab[:, 0:1, :, :]
       I_reference_ab = I_reference_lab[:, 1:3, :, :]
       I_reference_rgb = tensor_lab2rgb(torch.cat((uncenter_l(I_reference_l), I_reference_ab), dim=1))
       features_B = vggnet(I_reference_rgb, ["r12", "r22", "r32", "r42", "r52"], preprocess=True)
-    print("check => 3")
 
     for index, frame_name in enumerate(tqdm(filenames)):
-        print("check => 4")
         frame1 = Image.open(os.path.join(input_path, frame_name))
         IA_lab_large = transform(frame1).unsqueeze(0).cuda()
         IA_lab = torch.nn.functional.interpolate(IA_lab_large, scale_factor=0.5, mode="bilinear")
@@ -118,7 +112,6 @@ def colorize_video(input_path, reference_file, output_path, nonlocal_net, colorn
                 I_last_lab_predict = torch.zeros_like(IA_lab).cuda()
 
         # start the frame colorization
-        print("check => 5")
         with torch.no_grad():
             I_current_lab = IA_lab
             I_current_ab_predict, I_current_nonlocal_lab_predict, features_current_gray = frame_colorization(
@@ -135,7 +128,6 @@ def colorize_video(input_path, reference_file, output_path, nonlocal_net, colorn
             I_last_lab_predict = torch.cat((IA_l, I_current_ab_predict), dim=1)
 
         # upsampling
-        print("check => 6")
         curr_bs_l = IA_lab_large[:, 0:1, :, :]
         curr_predict = (
             torch.nn.functional.interpolate(I_current_ab_predict.data.cpu(), scale_factor=2, mode="bilinear") * 1.25
@@ -155,7 +147,6 @@ def colorize_video(input_path, reference_file, output_path, nonlocal_net, colorn
             IA_predict_rgb = batch_lab2rgb_transpose_mc(curr_bs_l[:32], curr_predict_filter[:32, ...])
         else:
             IA_predict_rgb = batch_lab2rgb_transpose_mc(curr_bs_l[:32], curr_predict[:32, ...])
-        print("check => 7")
 
         # save the frames
         save_frames(IA_predict_rgb, output_path, index)
