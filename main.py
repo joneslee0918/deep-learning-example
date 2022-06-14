@@ -25,4 +25,4 @@
 #     FrameCapture(os.path.join(path, video), frame_path)
 from utils.util import (folder2vid)
 
-folder2vid(image_folder="./sample_videos_clips/v04", output_dir="./", filename="result.avi")
+folder2vid(image_folder="./sample_videos/clips/v04", output_dir="./", filename="result.avi")
