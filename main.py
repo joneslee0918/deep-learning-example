@@ -150,6 +150,7 @@ def colorize_video(input_path, reference_file, output_path, nonlocal_net, colorn
 
     # output video
     video_name = "video.avi"
+    print("output_path => ", output_path)
     folder2vid(image_folder=output_path, output_dir=output_path, filename=video_name)
     print()
 
