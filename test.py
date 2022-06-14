@@ -132,8 +132,8 @@ if __name__ == "__main__":
     parser.add_argument("--image_size", type=int, default=[216 * 2, 384 * 2], help="the image size, eg. [216,384]")
     parser.add_argument("--cuda", action="store_false")
     parser.add_argument("--gpu_ids", type=str, default="0", help="separate by comma")
-    parser.add_argument("--clip_path", type=str, default="./sample_videos/clips/v32", help="path of input clips")
-    parser.add_argument("--ref_path", type=str, default="./sample_videos/ref/v32", help="path of refernce images")
+    parser.add_argument("--clip_path", type=str, default="./sample_videos/clips/v04", help="path of input clips")
+    parser.add_argument("--ref_path", type=str, default="./sample_videos/ref/v04", help="path of refernce images")
     parser.add_argument("--output_path", type=str, default="./sample_videos/output", help="path of output clips")
     opt = parser.parse_args()
     opt.gpu_ids = [int(x) for x in opt.gpu_ids.split(",")]
