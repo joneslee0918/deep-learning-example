@@ -2,11 +2,8 @@ from flask import Flask, send_from_directory, request
 import random
 import string
 import cv2
-from __future__ import print_function
-import argparse
 import glob
 import os
-import time
 
 import numpy as np
 import torch
@@ -202,7 +199,6 @@ def colorize(clip_path, ref_path, output_path):
     mkdir_if_not(clip_output_path)
     folder2vid(image_folder=output_path, output_dir=clip_output_path, filename=video_name)
     return joinPath("example", 'output', video_name)
-
 
 app = Flask(__name__)
 cf_port = 8000
