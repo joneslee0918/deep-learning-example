@@ -1,3 +1,4 @@
+import sys, traceback
 from flask import Flask, send_from_directory, request
 import random
 import string
@@ -203,7 +204,7 @@ def colorize(clip_path, ref_path, output_path):
             )
         except Exception as error:
             print("error when colorizing the video " + ref_name)
-            print(error)
+            traceback.print_exc()
 
     video_name = "video.avi"
     clip_output_path = joinPath(output_path, clip_name)
