@@ -45,7 +45,7 @@ def FrameCapture(video_path, output_path):
     while success:
         success, image = vidObj.read()
         if success:
-            image = image.resize(216, 384)
+            image = cv2.resize(image, (216, 384)) 
             cv2.imwrite(output_path + "/%d.jpg" % count, image)
             count += 1
 
