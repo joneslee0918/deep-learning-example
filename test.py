@@ -138,6 +138,7 @@ if __name__ == "__main__":
     opt = parser.parse_args()
     opt.gpu_ids = [int(x) for x in opt.gpu_ids.split(",")]
     cudnn.benchmark = True
+    print(opt.image_size)
     print("running on GPU", opt.gpu_ids)
 
     clip_name = opt.clip_path.split("/")[-1]

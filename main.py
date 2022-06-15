@@ -45,6 +45,7 @@ def FrameCapture(video_path, output_path):
     while success:
         success, image = vidObj.read()
         if success:
+            image = image.resize(216, 384)
             cv2.imwrite(output_path + "/%d.jpg" % count, image)
             count += 1
 
@@ -58,7 +59,7 @@ def colorize_video(input_path, reference_file, output_path, nonlocal_net, colorn
     wls_filter_on = True
     lambda_value = 500
     sigma_color = 4
-    image_size = [216 * 2, 384 * 2]
+    image_size = [216 , 384 ]
     frame_propagate = False
 
     # processing folders
@@ -71,7 +72,7 @@ def colorize_video(input_path, reference_file, output_path, nonlocal_net, colorn
 
     # NOTE: resize frames to 216*384
     transform = transforms.Compose(
-        [CenterPad(image_size), transform_lib.CenterCrop(image_size), RGB2Lab(), ToTensor(), Normalize()]
+        [CenterPad(image_size[0]), transform_lib.CenterCrop(image_size[1]), RGB2Lab(), ToTensor(), Normalize()]
     )
 
     # if frame propagation: use the first frame as reference
