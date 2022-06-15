@@ -214,7 +214,7 @@ def colorize(clip_path, ref_path, output_path):
     pass
 
 app = Flask(__name__)
-cf_port = 8000
+cf_port = 80
 
 @app.route("/")
 def hello_world():
