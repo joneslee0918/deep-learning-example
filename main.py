@@ -150,13 +150,13 @@ def colorize_video(input_path, reference_file, output_path, nonlocal_net, colorn
 
     # output video
     video_name = "video.avi"
-    print("output_path => ", output_path)
+    print("output_path => ", output_path, video_name)
     folder2vid(image_folder=output_path, output_dir=output_path, filename=video_name)
     print()
 
 def colorize(clip_path, ref_path, output_path):
     cudnn.benchmark = True
-    clip_name = "check_0614"
+    clip_name = clip_path.split("/")[-1]
     refs = os.listdir(ref_path)
     refs.sort()
 
@@ -198,8 +198,8 @@ def colorize(clip_path, ref_path, output_path):
     video_name = "video.avi"
     clip_output_path = joinPath(output_path, clip_name)
     mkdir_if_not(clip_output_path)
-    folder2vid(image_folder=output_path, output_dir=clip_output_path, filename=video_name)
-    return joinPath("example", 'output', video_name)
+    folder2vid(image_folder=clip_path, output_dir=clip_output_path, filename=video_name)
+    pass
 
 app = Flask(__name__)
 cf_port = 8000
@@ -214,7 +214,7 @@ def colorizing():
     r_files = request.files.getlist('ref[]')
 
     uploadPath = joinPath(_PATH_, "example")
-    clip_path = joinPath(uploadPath, "frames")
+    clip_path = joinPath(uploadPath, "clips")
     output_path = joinPath(uploadPath, 'output')
     ref_path = joinPath(uploadPath, 'refs')
 
