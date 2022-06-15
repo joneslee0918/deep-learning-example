@@ -78,7 +78,9 @@ def colorize_video(input_path, reference_file, output_path, nonlocal_net, colorn
     # otherwise, use the specified reference image
     ref_name = input_path + filenames[0] if frame_propagate else reference_file
     print("reference name:", ref_name)
+    print("check => -1")
     frame_ref = Image.open(ref_name)
+    print("check => 0")
 
     total_time = 0
     I_last_lab_predict = None
