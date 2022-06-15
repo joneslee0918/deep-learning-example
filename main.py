@@ -60,7 +60,7 @@ def colorize_video(input_path, reference_file, output_path, nonlocal_net, colorn
     wls_filter_on = True
     lambda_value = 500
     sigma_color = 4
-    image_size = [216 , 384 ]
+    image_size = [216 *2, 384 *2]
     frame_propagate = False
 
     # processing folders
